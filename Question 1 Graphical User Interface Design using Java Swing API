@@ -1,0 +1,102 @@
+package ex10;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class StudentRegistration extends JFrame implements ActionListener {
+    JTextField nameField;
+    JRadioButton male, female;
+    JCheckBox apple, samsung, redmi, oneplus;
+    JComboBox<String> colorBox;
+    JButton saveButton;
+
+    public StudentRegistration() {
+        setTitle("Register");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(6, 2, 10, 10));
+
+        JLabel nameLabel = new JLabel("Name:");
+        nameField = new JTextField(15);
+
+        JLabel genderLabel = new JLabel("Gender:");
+        male = new JRadioButton("Male");
+        female = new JRadioButton("Female");
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(male);
+        bg.add(female);
+
+        JLabel modelLabel = new JLabel("Model:");
+        apple = new JCheckBox("Apple");
+        samsung = new JCheckBox("Samsung");
+        redmi = new JCheckBox("Redmi");
+        oneplus = new JCheckBox("OnePlus");
+
+        JLabel colorLabel = new JLabel("Color:");
+        String colors[] = {"Black", "White", "Blue", "Red"};
+        colorBox = new JComboBox<>(colors);
+
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(this);
+
+        // Add components
+        add(nameLabel);
+        add(nameField);
+
+        add(genderLabel);
+        JPanel genderPanel = new JPanel();
+        genderPanel.add(male);
+        genderPanel.add(female);
+        add(genderPanel);
+
+        add(modelLabel);
+        JPanel modelPanel = new JPanel();
+        modelPanel.add(apple);
+        modelPanel.add(samsung);
+        modelPanel.add(redmi);
+        modelPanel.add(oneplus);
+        add(modelPanel);
+
+        add(colorLabel);
+        add(colorBox);
+
+        add(new JLabel());
+        add(saveButton);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String name = nameField.getText();
+        String gender = male.isSelected() ? "Male" : female.isSelected() ? "Female" : "Not Selected";
+        String models = "";
+        if (apple.isSelected()) models += "Apple, ";
+        if (samsung.isSelected()) models += "Samsung, ";
+        if (redmi.isSelected()) models += "Redmi, ";
+        if (oneplus.isSelected()) models += "OnePlus, ";
+        String color = (String) colorBox.getSelectedItem();
+
+        new DisplayFrame(name, gender, models, color);
+    }
+
+    public static void main(String[] args) {
+        new StudentRegistration();
+    }
+}
+
+class DisplayFrame extends JFrame {
+    public DisplayFrame(String name, String gender, String models, String color) {
+        setTitle("Display");
+        setSize(300, 200);
+        setLayout(new GridLayout(4, 1));
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        add(new JLabel("Name: " + name));
+        add(new JLabel("Gender: " + gender));
+        add(new JLabel("Model: " + models));
+        add(new JLabel("Color: " + color));
+
+        setVisible(true);
+    }
+}
